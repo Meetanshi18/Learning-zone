@@ -280,7 +280,7 @@ router.get("/coursebook",(req,res)=>{
 
 router.get("/course-catalog",(req,res)=>{
         let arr3=new Array;
-        let sql22="SELECT * FROM `course-tags` "
+        let sql22="SELECT * FROM `Course-tags` "
         sql.query(sql22, function (err, result2) {
             if (err) throw err;
             // arr.push(result2[0])
@@ -350,7 +350,7 @@ router.get("/enrol-check",(req,res)=>{
 
 router.get("/enrol-now",(req,res)=>{
 
-    let sql12="SELECT imgname FROM `course-tags` WHERE course='"+req.query.course+"'"
+    let sql12="SELECT imgname FROM `Course-tags` WHERE course='"+req.query.course+"'"
     sql.query(sql12, function (err, result1) {
         if (err) throw err;
         
