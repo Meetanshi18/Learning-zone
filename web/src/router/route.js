@@ -99,7 +99,17 @@ router.post('/signup',(req,res)=>{
 // router.get('/book/:id',booking.findone);
 // router.delete('/book/:id',booking.deleteone);
 
-
+router.get('/count',(req,res)=>{
+    var sql1="SELECT COUNT(course) FROM `course-student` WHERE student='"+req.session.name+"' AND status=1";
+    sql.query(sql1, function (err, result2) {
+        if (err) throw err;
+        
+    
+    // xy=""+result2[0].status
+       // console.log(result2)
+        res.send(result2)
+    })
+})
 
 router.post("/login",(req,res)=>{
     if (!req.body) {
@@ -272,6 +282,34 @@ router.get("/enrol",(req,res)=>{
 })
 
 
+router.get("/completed",(req,res)=>{
+    console.log(req.session.name)
+    let arr2=new Array;
+    let sql22="SELECT * FROM `course-student` WHERE student='"+req.session.name+"' AND status=1";
+    sql.query(sql22, function (err, result2) {
+        if (err) throw err;
+        // arr.push(result2[0])
+        // var result2 = JSON.stringify(result2);
+        // console.log(result2);
+
+        result2.forEach(element => {
+            arr2.push(element);
+
+        });
+        //console.log(arr2);
+        arr2 = JSON.stringify(arr2);
+        res.send(arr2);
+    })
+
+
+
+
+   
+
+// });
+})
+
+
 
 router.get("/coursebook",(req,res)=>{
     res.render('coursebook')
@@ -306,12 +344,22 @@ router.get("/coursebook/:cname",(req,res)=>{
     let cname11=req.params.cname;
     let sql22="SELECT * FROM `course-data` WHERE course='"+req.params.cname+"'"
         sql.query(sql22, function (err, result2) {
-            if (err) throw err;
-            res.render('course',{
+            if (err) 
+                throw err;
+
+            if(result2.length==0){
+                res.render("notfound");
+            }
+            else{
+            res.render('course',
+            {
+
                 cname:result2[0].course,
                 data:result2[0].data,
-                author:result2[0].author
+                author:result2[0].author,
+                p_name:req.session.name
             })
+            }
         })
 
    // res.send("hey");
@@ -335,7 +383,7 @@ router.get("/enrol-check",(req,res)=>{
         }
         else{
         xy=""+result2[0].status
-        //console.log(xy)
+        // console.log(xy)
         res.send(xy)
         }
     })
@@ -375,5 +423,24 @@ router.get("/enrol-now",(req,res)=>{
 
     
 })
+
+
+
+///completed?course="+data1
+
+
+router.get("/done",(req,res)=>{
+    var sql22 = "UPDATE `course-student` SET status=1 WHERE student ='" + req.session.name +"' AND course='"+ req.query.course+"'";
+
+    sql.query(sql22, function (err, result2) {
+        if (err) throw err;
+        
+    
+    // xy=""+result2[0].status
+       // console.log(result2)
+        res.send("yes")
+    })
+})
+
 
 module.exports=router;

@@ -4,9 +4,11 @@ const db_Config = require("../config/db-config.js");
 // Create a connection to database
 
 const conn = mysql.createConnection({
+
   host: 'db',
-  user: 'root',
+  user: 'mysql',
   password: '1234',
+
   // host: 'localhost',
   // user: 'root',
   // password: '',
